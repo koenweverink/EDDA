@@ -1,5 +1,5 @@
 #Load Ice_cream_.csv
-Ice_cream <- read.csv("C:\\Users\\koenw\\Desktop\\Master - Computational Science\\Block 4\\Experimental Design and Data Analysis\\Assignments\\Ice_cream.csv")
+Ice_cream <- read.csv("C:\\Users\\koenw\\Desktop\\Master - Computational Science\\Block 4\\Experimental Design and Data Analysis\\EDDA_Assignments\\Ice_cream.csv")
 
 #print the first 6 rows of the data
 head(Ice_cream)
@@ -68,3 +68,48 @@ print(wilcox_test)
 
 
 #####################################   D   #####################################
+
+
+
+#####################################   E   #####################################
+#extract the female and video column from the data
+retval <- Ice_cream[, c(2,4)]
+
+female <- subset(retval, female=='1')
+male <- subset(retval, female=='0')
+
+# get the mean of the video column of female
+mu_fem <- mean(female$video)
+mu_male <- mean(male$video)
+print(mu_fem); print(mu_male)
+
+#Perform a two-sample t-test to test the hypothesis that the mean of the video column of female is different from the mean of the video column of male
+ttest <- t.test(female$video, male$video, alternative = "two.sided")
+print(ttest)
+
+#perform a wilcox rank-sum test to test the hypothesis that the mean of the video column of female is different from the mean of the video column of male
+wilcox_test <- wilcox.test(female$video, male$video, alternative="two.sided")
+print(wilcox_test)
+
+#perform a kolmogorov-smirnov test to test the hypothesis that the distribution of the video column of female is different from the mean of the video column of male
+ks_test <- ks.test(female$video, male$video)
+print(ks_test)
+
+
+#####################################   F   ################################
+#extract the video and puzzle column from the data
+retval <- Ice_cream[, c(4,5)]
+head(retval)
+
+
+#Check if the video and puzzle column are correlated
+correlation <- cor(retval)
+print(correlation)
+
+#check if score of the video column is higher than the score of the puzzle column
+ttest <- t.test(retval$video, retval$puzzle, alternative = "greater")
+print(ttest)
+
+#perform a wilcox rank-sum test to test the hypothesis that the score of the video column is higher than the score of the puzzle column
+wilcox_test <- wilcox.test(retval$video, retval$puzzle, alternative="greater")
+print(wilcox_test)
